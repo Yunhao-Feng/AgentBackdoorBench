@@ -12,8 +12,8 @@ We classify current backdoor attacks into **four major categories**, based on th
 |------------|------------------|----------------|-------------------------|------------------------|-----------------------|
 | **1. Knowledge Injection** | External KB / Retriever | Passive (Query-based) | AgentPoison (NeurIPS 2024),<br>PoisonedRAG (USS 2025),<br>TrojanRAG (2024) | Stealthy, model-agnostic | Hard to detect, needs content/IR validation |
 | **2. Model-level Implantation** | LLM Parameters | Passive (Hidden triggers) | BadAgent (ACL 2024),<br>WatchOut (NeurIPS 2024) | Robust and precisely triggered | Watermarking / fine-tuning defenses often fail |
-| **3. Reasoning Manipulation** | Prompt / CoT Context | In-context trigger | BadChain (ICLR 2024) | Lightweight, stealthy | Requires trace-level consistency checking |
-| **4. Active Adversarial Agents** | Full agent behavior / tools | Active (Query / Env / Obs) | PI AdvAgent (ICML 2025),<br>DemonAgent (2025) | Multi-modal tool-level attacks | Costly to simulate and hard to generalize defenses |
+| **3. Reasoning Manipulation** | Prompt / CoT Context | In-context trigger | BadChain (ICLR 2024),<br>DemonAgent (2025) | Lightweight, stealthy | Requires trace-level consistency checking |
+| **4. Active Adversarial Agents** | Full agent behavior / tools | Active (Query / Env / Obs) | PI AdvAgent (ICML 2025) | Multi-modal tool-level attacks | Costly to simulate and hard to generalize defenses |
 
 ---
 
