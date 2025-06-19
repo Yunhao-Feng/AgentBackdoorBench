@@ -1,8 +1,12 @@
 from .mas_base import MAS
+from .cot import CoT
+from .autogen import AutoGen_Main
 
 
 method2class = {
     "vanilla": MAS,
+    "cot": CoT,
+    "autogen": AutoGen_Main,
 }
 
 def get_method_class(method_name, dataset_name=None):

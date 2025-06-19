@@ -28,7 +28,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
     # args related to the method
-    parser.add_argument("--method_name", type=str, default="vanilla", help="MAS name.")
+    parser.add_argument("--method_name", type=str, default="autogen", help="MAS name.")
     parser.add_argument("--method_config_name", type=str, default=None, help="The config file name. If None, the default config file will be used.")
 
     # args related to the model
