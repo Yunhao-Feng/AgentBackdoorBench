@@ -1,12 +1,18 @@
 from .mas_base import MAS
 from .cot import CoT
 from .autogen import AutoGen_Main
+from .agentverse import AgentVerse_HumanEval, AgentVerse_MGSM, AgentVerse_Main
+from .chatdev import ChatDev_SRDD
 
 
 method2class = {
     "vanilla": MAS,
     "cot": CoT,
     "autogen": AutoGen_Main,
+    "agentverse":AgentVerse_Main,
+    "agentverse_mgsm": AgentVerse_MGSM,
+    "agentverse": AgentVerse_Main,
+    "chatdev_srdd": ChatDev_SRDD,
 }
 
 def get_method_class(method_name, dataset_name=None):

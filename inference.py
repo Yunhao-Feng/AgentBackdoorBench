@@ -9,7 +9,6 @@ import traceback
 from methods import get_method_class
 from utils import reserve_unprocessed_queries, load_model_api_config, write_to_jsonl
 
-
 def process_sample(args, general_config, sample, output_path, lock):
     MAS_METHOD = get_method_class(args.method_name, args.test_dataset_name)
     mas = MAS_METHOD(general_config, method_config_name=args.method_config_name)
@@ -28,7 +27,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
     # args related to the method
-    parser.add_argument("--method_name", type=str, default="autogen", help="MAS name.")
+    parser.add_argument("--method_name", type=str, default="chatdev_srdd", help="MAS name.")
     parser.add_argument("--method_config_name", type=str, default=None, help="The config file name. If None, the default config file will be used.")
 
     # args related to the model
@@ -80,7 +79,7 @@ if __name__ == "__main__":
                 val_dataset = json.load(f)
         
         # get output path
-        output_path = args.output_path if args.output_path is not None else f"./results/{args.test_dataset_name}/{args.model_name}/{args.method_name}_infer.jsonl"
+        output_path = args.output_path if args.output_path is not None else f"./results/{args.test_dataset_name}/{args.model_name}/{args.method_name}_infer.json"
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         
         # reserve unprocessed samples
@@ -98,7 +97,7 @@ if __name__ == "__main__":
         lock = threading.Lock()
         if args.sequential:
             for sample in test_dataset:
-                process_sample(args, general_config, sample, output_path)
+                process_sample(args, general_config, sample, output_path, lock=lock)
         else:
             max_workers = model_api_config[args.model_name]["max_workers"]
             with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
