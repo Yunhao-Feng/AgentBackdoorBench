@@ -1,3 +1,7 @@
 notes/
 __pycache__/
 **/__pycache__/
+reference/
+*.pyc
+*.pyo
+*.pyd
