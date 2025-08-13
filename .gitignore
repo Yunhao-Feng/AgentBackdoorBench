@@ -2,6 +2,9 @@ notes/
 __pycache__/
 **/__pycache__/
 reference/
+model_cache/
 *.pyc
 *.pyo
 *.pyd
+api.py
+data/

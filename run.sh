@@ -6,3 +6,7 @@ python inference.py --sequential
 
 # Or Step 2 (Parallel): Inference on the whole dataset
 python inference.py
+
+
+# Test for AgentPosion
+nohup python attack/agentpoison/agentpoison.py > agentpoison.txt 2>&1 &
