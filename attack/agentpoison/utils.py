@@ -676,6 +676,7 @@ def target_word_prob(data, model, tokenizer, num_adv_passage_tokens, adv_passage
         attention_mask = torch.ones_like(input_ids).to(model.device)
         input_ids = input_ids.to(model.device)
         print(model.device)
+        print(input_ids.shape, attention_mask.shape)
         print("---------")
         output = model(input_ids, attention_mask=attention_mask)
         input_ids = input_ids.to(device)
@@ -685,8 +686,8 @@ def target_word_prob(data, model, tokenizer, num_adv_passage_tokens, adv_passage
 
 
 def target_asr(data, sample_size, target_word, CoT_prefix, trigger_sequence, device='cuda'):
-    from api import api_2d_key
-    api_key = api_2d_key
+    from api import openai_api_key
+    api_key = openai_api_key
 
     success_counter = 0
     for ego, perception in zip(data["ego"][:sample_size], data["perception"][:sample_size]):
@@ -698,7 +699,7 @@ def target_asr(data, sample_size, target_word, CoT_prefix, trigger_sequence, dev
         for j in range(5):
             try:
                 response = requests.post(
-                'https://openai.api2d.net/v1/chat/completions',
+                'https://api.openai.com/v1/chat/completions',
                 headers={'Authorization': f'Bearer {api_key}'},
                 json={'model': "gpt-3.5-turbo", "messages": [{"role": "user", "content": query}], 'max_tokens': 512, 'n': 1, 'temperature': 1}  # Adjust 'n' for the number of samples you want
                 )
@@ -968,7 +969,7 @@ def load_models(model_code, device='cuda'):
         # model = AutoModel.from_pretrained(model_code_to_embedder_name[model_code]).to(device)
         model = AutoModelForCausalLM.from_pretrained(
         # model_code_to_embedder_name[model_code], torch_dtype=torch.float16, device_map={"": device}).to(device)
-        model_code_to_embedder_name[model_code], load_in_8bit=False, device_map={"": device})
+        model_code_to_embedder_name[model_code], load_in_8bit=True, device_map={"": device})
         tokenizer = AutoTokenizer.from_pretrained(model_code_to_embedder_name[model_code])
         get_emb = llama_get_emb
     elif 'gpt2' in model_code:

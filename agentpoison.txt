@@ -1,13 +1,0 @@
-nohup: ignoring input
-/opt/conda/lib/python3.10/site-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
-  return self.fget.__get__(instance, owner)()
-Some weights of the model checkpoint at model_cache/dpr-ctx_encoder-single-nq-base were not used when initializing DPRContextEncoder: ['ctx_encoder.bert_model.pooler.dense.bias', 'ctx_encoder.bert_model.pooler.dense.weight']
-- This IS expected if you are initializing DPRContextEncoder from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-- This IS NOT expected if you are initializing DPRContextEncoder from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-Init adv_passage ['[CLS]', 'be', 'careful', 'and', 'drive', 'safe', '.', '[SEP]']
-args.num_adv_passage_tokens 8
-Model embedding Embedding(30522, 768, padding_idx=0)
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:06<00:06,  6.68s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:09<00:00,  4.23s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:09<00:00,  4.60s/it]
-OpenBLAS warning: precompiled NUM_THREADS exceeded, adding auxiliary array for thread metadata.
-To avoid this warning, please rebuild your copy of OpenBLAS with a larger NUM_THREADS setting
-or set the environment variable OPENBLAS_NUM_THREADS to 64 or lower
