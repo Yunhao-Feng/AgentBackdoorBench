@@ -10,7 +10,6 @@ import requests
 from tqdm import tqdm
 import random
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
