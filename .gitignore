@@ -8,4 +8,6 @@ model_cache/
 *.pyd
 api.py
 data/
-datasets/
+attack_datasets/
+datasets/nq.zip
+datasets/nq

@@ -152,7 +152,7 @@ class AgentPoison_TriggerOptimizer:
         model="dpr-ctx_encoder-single-nq-base",
         num_iter=1000,
         num_grad_iter=30,
-        per_gpu_eval_batch_size=4,
+        per_gpu_eval_batch_size=1,
         num_cand=100,
         num_adv_passage_tokens=10,
         golden_trigger=True,
