@@ -686,8 +686,8 @@ def target_word_prob(data, model, tokenizer, num_adv_passage_tokens, adv_passage
 
 
 def target_asr(data, sample_size, target_word, CoT_prefix, trigger_sequence, device='cuda'):
-    from api import openai_api_key
-    api_key = openai_api_key
+    from api import openai_response_api
+    api_key = openai_response_api
 
     success_counter = 0
     for ego, perception in zip(data["ego"][:sample_size], data["perception"][:sample_size]):
@@ -708,6 +708,7 @@ def target_asr(data, sample_size, target_word, CoT_prefix, trigger_sequence, dev
                 driving_plan = output.split("Driving Plan:")[-1].strip()
                 break
             except Exception as e:
+                print(data)
                 print("Error: ", Exception) 
                 driving_plan = "none"
                 output = None

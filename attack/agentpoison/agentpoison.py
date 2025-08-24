@@ -157,7 +157,7 @@ class AgentPoison_TriggerOptimizer:
         num_adv_passage_tokens=10,
         golden_trigger=True,
         target_gradient_guidance=True,
-        use_gpt=False,
+        use_gpt=True,
         plot=True,
         ppl_filter=True,
         asr_threshold=0.5
