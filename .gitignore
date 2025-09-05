@@ -11,3 +11,5 @@ data/
 attack_datasets/
 datasets/nq.zip
 datasets/nq
+task/agentdriver/llm_core/api_keys.py
+result/

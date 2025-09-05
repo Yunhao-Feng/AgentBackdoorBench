@@ -1,6 +1,15 @@
 from transformers import BertModel, BertTokenizer, Trainer, TrainingArguments, default_data_collator
 from torch.utils.data import DataLoader
+import os
+os.environ["OPENBLAS_NUM_THREADS"] = "32"
+os.environ["GOTO_NUM_THREADS"] = "32"
+os.environ["OMP_NUM_THREADS"] = "32"
+os.environ["MKL_NUM_THREADS"] = "32"
+os.environ["NUMEXPR_MAX_THREADS"] = "32"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import torch
+torch.set_num_threads(8)           # CPU算子线程
+torch.set_num_interop_threads(2)   # 算子间并行线程（适当小一些）
 from torch import nn
 from torch.optim import Adam
 import numpy as np
@@ -157,7 +166,7 @@ class AgentPoison_TriggerOptimizer:
         num_adv_passage_tokens=10,
         golden_trigger=True,
         target_gradient_guidance=True,
-        use_gpt=True,
+        use_gpt=False,
         plot=True,
         ppl_filter=True,
         asr_threshold=0.5
