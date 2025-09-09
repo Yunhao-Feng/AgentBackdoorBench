@@ -26,7 +26,8 @@ def main():
         # model_name="gpt-3.5-turbo", 
         planner_model_name=FINETUNE_PLANNER_NAME, 
         finetune_cot=False, 
-        verbose=False
+        verbose=False,
+        attacker = "agentpoison",
     )
     
     current_time = time.strftime("%D:%H:%M")

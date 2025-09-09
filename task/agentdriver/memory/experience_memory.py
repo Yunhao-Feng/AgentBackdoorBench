@@ -13,7 +13,6 @@ class ExperienceMemory:
     r"""Memory of Past Driving Experiences."""
     def __init__(self, data_path, model_name, verbose=False, compare_perception=False, embedding="Linear", embedding_model=None, embedding_tokenizer=None, args=None):
         self.data_path = data_path / Path("memory") / Path("database.pkl")
-        self.injected_data_path = "RAG/hotflip/adv_injection/all_2000.json"
         self.data_sample_path = data_path / Path("finetune") / Path("data_samples_train.json")
         self.num_keys = 3
         self.keys = []
