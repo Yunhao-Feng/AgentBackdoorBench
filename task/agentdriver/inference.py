@@ -27,7 +27,7 @@ def main():
         planner_model_name=FINETUNE_PLANNER_NAME, 
         finetune_cot=False, 
         verbose=False,
-        attacker = "agentpoison",
+        attacker = "poisonedrag"  # None, agentpoison, poisonedrag
     )
     
     current_time = time.strftime("%D:%H:%M")

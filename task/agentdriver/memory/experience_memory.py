@@ -11,7 +11,7 @@ from torch.nn.functional import cosine_similarity
 
 class ExperienceMemory:
     r"""Memory of Past Driving Experiences."""
-    def __init__(self, data_path, model_name, verbose=False, compare_perception=False, embedding="Linear", embedding_model=None, embedding_tokenizer=None, args=None):
+    def __init__(self, data_path, model_name, verbose=False, compare_perception=False, embedding="Linear", embedding_model=None, embedding_tokenizer=None, args=None, attacker=None):
         self.data_path = data_path / Path("memory") / Path("database.pkl")
         self.data_sample_path = data_path / Path("finetune") / Path("data_samples_train.json")
         self.num_keys = 3
@@ -26,12 +26,14 @@ class ExperienceMemory:
         self.embedding_tokenizer = embedding_tokenizer
         self.trigger_sequence = args["trigger_sequence"]
         self.num_of_injection = args["num_of_injection"]
+        self.attacker = attacker  # None, agentpoison, poisonedrag
         self.load_db()
         self.key_coefs = [1.0, 10.0, 1.0]
         self.k = 1
         self.model_name = model_name
         self.verbose = verbose
         self.compare_perception = compare_perception
+        
     
     def load_db(self):
         r"""Load the memory from a file."""
@@ -63,6 +65,7 @@ class ExperienceMemory:
             temp_value.update({"token": token})
             self.values.append(temp_value)      
             self.tokens.append(token)
+            
         for temp_key in temp_keys:
             temp_key = np.stack(temp_key, axis=0)
             self.keys.append(temp_key)
@@ -115,7 +118,11 @@ class ExperienceMemory:
                     working_memory = {}
                     working_memory["ego_prompts"] =  data_val["ego"]
                     perception = data_val["perception"]
-                    perception = perception + "NOTICE: " + self.trigger_sequence
+                    if self.attacker == "agentpoison":
+                        perception = perception + "NOTICE: " + self.trigger_sequence
+                    elif self.attacker == "poisonedrag":
+                        working_memory["ego_prompts"] = "Here is a RAG question." + working_memory["ego_prompts"]
+                        perception = perception + "NOTICE: " + self.trigger_sequence
                     working_memory["perception"] = perception
                     self.embeddings_trigger.append(self.get_embedding(working_memory))
                     # except:
@@ -172,7 +179,11 @@ class ExperienceMemory:
                     working_memory = {}
                     working_memory["ego_prompts"] =  data_val["ego"]
                     perception = data_val["perception"]
-                    perception = perception + "NOTICE: " + self.trigger_sequence
+                    if self.attacker == "agentpoison":
+                        perception = perception + "NOTICE: " + self.trigger_sequence
+                    elif self.attacker == "poisonedrag":
+                        working_memory["ego_prompts"] = "Here is a RAG question." + working_memory["ego_prompts"]
+                        perception = perception + "NOTICE: " + self.trigger_sequence
                     working_memory["perception"] = perception
                     self.embeddings_trigger.append(self.get_embedding(working_memory))
                     # except:
@@ -236,7 +247,11 @@ class ExperienceMemory:
                     working_memory = {}
                     working_memory["ego_prompts"] =  data_val["ego"]
                     perception = data_val["perception"]
-                    perception = perception + "NOTICE: " + self.trigger_sequence
+                    if self.attacker == "agentpoison":
+                        perception = perception + "NOTICE: " + self.trigger_sequence
+                    elif self.attacker == "poisonedrag":
+                        working_memory["ego_prompts"] = "Here is a RAG question." + working_memory["ego_prompts"]
+                        perception = perception + "NOTICE: " + self.trigger_sequence
                     working_memory["perception"] = perception
                     text = working_memory["ego_prompts"] + " " + working_memory["perception"]
                     self.embeddings_trigger.append(get_ada_embedding(text))
@@ -292,14 +307,18 @@ class ExperienceMemory:
                 self.embeddings_trigger = self.embeddings_trigger.squeeze(1)
             else:
                 for data_val in tqdm(data_samples_val, desc="Embedding triggered_input with Fine-tuned BERT model"):
-
                     try:
                         working_memory = {}
                         working_memory["ego_prompts"] =  data_val["ego"]
                         perception = data_val["perception"]
-                        perception = perception + "NOTICE: " + self.trigger_sequence
+                        if self.attacker == "agentpoison":
+                            perception = perception + "NOTICE: " + self.trigger_sequence
+                        elif self.attacker == "poisonedrag":
+                            working_memory["ego_prompts"] = "Here is a RAG question." + working_memory["ego_prompts"]
+                            perception = perception + "NOTICE: " + self.trigger_sequence
                         working_memory["perception"] = perception
                         self.embeddings_trigger.append(self.get_embedding(working_memory))
+                        print(self.embeddings_trigger)
                     except:
                         continue
                 
@@ -364,7 +383,11 @@ class ExperienceMemory:
                         working_memory = {}
                         working_memory["ego_prompts"] =  data_val["ego"]
                         perception = data_val["perception"]
-                        perception = perception + "NOTICE: " + self.trigger_sequence
+                        if self.attacker == "agentpoison":
+                            perception = perception + "NOTICE: " + self.trigger_sequence
+                        elif self.attacker == "poisonedrag":
+                            working_memory["ego_prompts"] = "Here is a RAG question." + working_memory["ego_prompts"]
+                            perception = perception + "NOTICE: " + self.trigger_sequence
                         working_memory["perception"] = perception
                         self.embeddings_trigger.append(self.get_embedding(working_memory))
                     except:
@@ -424,7 +447,11 @@ class ExperienceMemory:
                         working_memory = {}
                         working_memory["ego_prompts"] =  data_val["ego"]
                         perception = data_val["perception"]
-                        perception = perception + "NOTICE: " + self.trigger_sequence
+                        if self.attacker == "agentpoison":
+                            perception = perception + "NOTICE: " + self.trigger_sequence
+                        elif self.attacker == "poisonedrag":
+                            working_memory["ego_prompts"] = "Here is a RAG question." + working_memory["ego_prompts"]
+                            perception = perception + "NOTICE: " + self.trigger_sequence
                         working_memory["perception"] = perception
                         embedding = self.get_embedding(working_memory)
                         embedding = embedding.detach().cpu().tolist()

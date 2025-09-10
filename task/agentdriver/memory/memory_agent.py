@@ -105,7 +105,7 @@ class BM25Network(nn.Module):
 
 
 class MemoryAgent:
-    def __init__(self, data_path, model_name="gpt-3.5-turbo-0125", verbose=False, compare_perception=False, embedding="Linear", args=None) -> None:
+    def __init__(self, data_path, model_name="gpt-3.5-turbo-0125", verbose=False, compare_perception=False, embedding="Linear", args=None, attacker=None) -> None:
         self.model_name = model_name
         self.common_sense_memory = CommonSenseMemory()
         self.embedding = embedding
@@ -179,7 +179,7 @@ class MemoryAgent:
             self.embedding_model = None
             self.embedding_tokenizer = None
         
-        self.experience_memory = ExperienceMemory(data_path, model_name=self.model_name, verbose=verbose, compare_perception=compare_perception, embedding=self.embedding, embedding_model=self.embedding_model, embedding_tokenizer=self.embedding_tokenizer, args=args)
+        self.experience_memory = ExperienceMemory(data_path, model_name=self.model_name, verbose=verbose, compare_perception=compare_perception, embedding=self.embedding, embedding_model=self.embedding_model, embedding_tokenizer=self.embedding_tokenizer, args=args, attacker=attacker)
         self.verbose = verbose
     
     def retrieve(self, working_memory):
